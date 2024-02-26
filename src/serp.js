@@ -5,7 +5,7 @@ import KeywordForm from './KeywordForm';
 import Login from './login'; // Ensure this is the correct path to your Login component
 import { useAuth } from './AuthContext'; // Adjust the path as necessary to where your AuthContext is defined
 
-const App = () => {
+const BasicSERP = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [keyword, setKeyword] = useState('');
@@ -118,10 +118,10 @@ const App = () => {
           )}
         </>
       ) : (
-        <Login onLogin={login} />
+        <Login onLogin={login} /> // Use the login function directly from AuthContext
       )}
     </Container>
   );
 };
 
-export default App;
+export default BasicSERP;

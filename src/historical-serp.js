@@ -9,27 +9,21 @@ const HistoricalSERPs = () => {
     const fetchData = async () => {
       try {
         const allResults = [];
-        const requestUrl = 'https://api.dataforseo.com/v3/dataforseo_labs/google/historical_serps/live';
-        const requestData = {
-          // Add your request body here
-          // Example: { keyword: "example keyword", location: "1006886", language: "en" }
-        };
-
-        const response = await axios.post(requestUrl, requestData, {
-          auth: {
-            username: process.env.REACT_APP_API_USERNAME,
-            password: process.env.REACT_APP_API_PASSWORD
-          },
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        const result = response.data;
-        if (result.tasks && result.tasks.length > 0) {
-          allResults.push(...result.tasks);
+        let nextPageUrl = 'https://api.dataforseo.com/v3/dataforseo_labs/google/historical_serps/live';
+        while (nextPageUrl) {
+          const response = await axios.get(nextPageUrl, {
+            auth: {
+              username: process.env.REACT_APP_API_USERNAME,
+              password: process.env.REACT_APP_API_PASSWORD
+            },
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const result = response.data.tasks;
+          allResults.push(...result);
+          nextPageUrl = response.data.pagination.next;
         }
-
         setHistoricalSERPs(allResults);
         setLoading(false);
       } catch (error) {
@@ -52,8 +46,8 @@ const HistoricalSERPs = () => {
             <li key={index}>
               <p>Task ID: {task.id}</p>
               <p>Status: {task.status_message}</p>
-              <p>Keyword: {task.data?.keyword ? decodeURIComponent(task.data.keyword) : 'N/A'}</p>
-              <p>Location Code: {task.data?.location_code}</p>
+              <p>Keyword: {decodeURIComponent(task.data.keyword)}</p>
+              <p>Location Code: {task.data.location_code}</p>
               {/* Add more details as needed */}
             </li>
           ))}

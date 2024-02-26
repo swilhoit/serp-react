@@ -5,7 +5,6 @@ import KeywordForm from './KeywordForm';
 import { Line } from 'react-chartjs-2';
 import { Chart, LineController, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import Login from './login';
 
 Chart.register(LineController, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -18,11 +17,6 @@ const RelatedKeywordFinder = () => {
   const [monthlySearchData, setMonthlySearchData] = useState({});
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
 
 
   const handleKeywordsSubmit = (submittedKeyword) => {
@@ -131,8 +125,6 @@ const RelatedKeywordFinder = () => {
 
   return (
     <Container maxWidth="lg">
-      {isLoggedIn ? (
-        <>
           <Typography variant="h4" component="h1" gutterBottom align="center" marginTop={4}>
             Related Keywords Finder
           </Typography>
@@ -147,13 +139,14 @@ const RelatedKeywordFinder = () => {
             </Typography>
           ) : (
             <>
+            <div>
               <Typography variant="h6" gutterBottom marginTop={4}>
-                Related keywords for: <span style={{ color: '#1976d2' }}>{keyword}</span> (Total Search Volume: {totalSearchVolume})
-              </Typography>
+                Related keywords for: <span style={{ color: '#1976d2' }}>{keyword}</span></Typography> <Typography variant="h6" gutterBottom marginTop={4}>Total Search Volume: <span style={{ color: '#1976d2' }}> {totalSearchVolume}</span>
+              </Typography></div>
               <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
               <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
               {monthlySearchData.labels && (
-                <div>
+                <div margin="25px">
                   <Typography variant="h6" gutterBottom>
                     Monthly Search Trends
                   </Typography>
@@ -188,10 +181,9 @@ const RelatedKeywordFinder = () => {
               </TableContainer>
             </>
           )}
-        </>
-      ) : (
-        <Login onLogin={handleLogin} />
-      )}
+     
+        
+     
     </Container>
   );
 };
