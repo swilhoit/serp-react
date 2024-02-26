@@ -52,7 +52,7 @@ const KeywordForm = ({ onKeywordsSubmit }) => {
           ml: 1, 
           height: '100%', 
           width: '50%', 
-          backgroundColor: 'black' 
+          backgroundColor: '#3c4163' 
         }}
       >
         Submit
